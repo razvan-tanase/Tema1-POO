@@ -1,18 +1,24 @@
 package main;
 
+import actions.Command;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
+import fileio.ActionInputData;
 import fileio.Input;
 import fileio.InputLoader;
 import fileio.Writer;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import user.User;
+import user.UsersDB;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -71,6 +77,23 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
+        List<ActionInputData> actions = input.getCommands();
+        UsersDB usersDB = new UsersDB(input.getUsers());
+
+        for (ActionInputData actionInputData : actions) {
+            switch (actionInputData.getActionType()) {
+                case Constants.COMMAND:
+                    Command command = new Command(actionInputData);
+                    User user = new User(usersDB.searchForUser(command.getUsername()));
+                    JSONObject object = fileWriter.writeFile(command.getActionId(), "",
+                            command.performCommand(user));
+                    arrayResult.add(object);
+                    //System.out.println(object);
+
+                case Constants.QUERY:
+                case Constants.RECOMMENDATION:
+            }
+        }
 
         fileWriter.closeJSON(arrayResult);
     }

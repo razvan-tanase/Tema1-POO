@@ -54,6 +54,12 @@ public final class Constants {
     public static final String QUERY = "query";
     public static final String COMMAND = "command";
     public static final String RECOMMENDATION = "recommendation";
+    public static final String FAVORITE = "favorite";
+    public static final String VIEW = "view";
+    public static final String RATING = "rating";
+    public static final String ERROR = "error -> ";
+    public static final String ALREADY = " is already in favourite list";
+    public static final String SEEN = " is not seen";
 
     // checker constants
     public static final String ID_STRING = "id";
